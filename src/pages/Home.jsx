@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import FeedVideos from "../components/FeedVideos";
 import { ytContext } from "../contextAPI";
 import Layout from "../layouts/Layout";
+import { getFeedVideos } from "../utils/fetchFromAPI";
 import ErrorPage from "./ErrorPage";
 
 function Home() {
@@ -18,16 +18,14 @@ function Home() {
     const fetchTrendingVideos = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `http://localhost:5000/api/feed?page=${page}`
-        );
+        const response = await getFeedVideos(page);
 
-        if (response.data.length === 0) {
+        if (response.length === 0) {
           setReachedEnd(true);
           return;
         }
 
-        setFeedVideos((prevVideos) => [...prevVideos, ...response.data]);
+        setFeedVideos((prevVideos) => [...prevVideos, ...response]);
         setPage((prevPage) => prevPage + 1);
         setLoading(false);
       } catch (error) {

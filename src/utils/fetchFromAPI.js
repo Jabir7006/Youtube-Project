@@ -1,7 +1,12 @@
 import axios from "axios";
 
 // export const apiUrl = "https://invidious.fdn.fr/api/v1"
-export const apiUrl = "https://youtube-project-server.vercel.app";
+export const apiUrl = "https://youtube-project-server.vercel.app/api";
+
+export const getFeedVideos = async (page) => {
+  const response = await axios.get(`${apiUrl}/feed?page=${page}`);
+  return response.data;
+};
 
 export const getComments = async (videoId) => {
   const response = await axios.get(`${apiUrl}/comments/${videoId}`);
@@ -54,9 +59,7 @@ export const getChannelShorts = async (channelId, filter = "Latest") => {
   return response.data;
 };
 export const getChannelPosts = async (channelId) => {
-  const response = await axios.get(
-    `${apiUrl}/channel/${channelId}/posts`
-  );
+  const response = await axios.get(`${apiUrl}/channel/${channelId}/posts`);
   return response.data;
 };
 
