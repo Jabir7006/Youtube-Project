@@ -16,6 +16,7 @@ app.use(
       "http://localhost:5173",
       "http://192.168.1.103:5173",
       "https://react-youtube-project.vercel.app",
+      "https://youtube-project-beta.vercel.app"
     ],
   })
 );

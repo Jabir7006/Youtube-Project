@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // export const apiUrl = "https://invidious.fdn.fr/api/v1"
-export const apiUrl = "http://localhost:5000/api";
+export const apiUrl = "https://youtube-project-server.vercel.app";
 
 export const getComments = async (videoId) => {
   const response = await axios.get(`${apiUrl}/comments/${videoId}`);
