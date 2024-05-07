@@ -3,6 +3,7 @@ import axios from "axios";
 // export const apiUrl = "https://invidious.fdn.fr/api/v1"
 export const apiUrl = "https://youtube-project-server.vercel.app/api";
 
+
 export const getFeedVideos = async (page) => {
   const response = await axios.get(`${apiUrl}/feed?page=${page}`);
   return response.data;

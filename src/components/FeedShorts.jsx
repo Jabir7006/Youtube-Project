@@ -22,7 +22,7 @@ const FeedShorts = () => {
   useEffect(() => {
     fetchShorts();
   }, []);
-  console.log(feedShorts);
+
   return (
     <>
       {/* Display loading message or spinner if loading */}

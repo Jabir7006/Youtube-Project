@@ -16,7 +16,7 @@ app.use(
       "http://localhost:5173",
       "http://192.168.1.103:5173",
       "https://react-youtube-project.vercel.app",
-      "https://youtube-project-beta.vercel.app"
+      "https://youtube-project-beta.vercel.app",
     ],
   })
 );
@@ -30,7 +30,6 @@ let youtube;
 
 (async () => {
   youtube = await Innertube.create({
-    location: "BD",
     generate_session_locally: true,
     cache: new UniversalCache(false),
   });
@@ -62,7 +61,7 @@ app.get("/api/trending", async (req, res) => {
 app.get("/api/feed", async (req, res) => {
   try {
     const { page } = req.query;
-    const videos = await yt.search("cartoon", {
+    const videos = await yt.search("trending", {
       type: "video", // video | playlist | channel | all
     });
 
@@ -308,29 +307,39 @@ app.get("/api/channel/:channelId/videos", async (req, res) => {
 });
 
 app.get("/api/channel/:channelId/shorts", async (req, res) => {
-  const { channelId } = req.params;
-  const { filter } = req.query;
+  try {
+    const { channelId } = req.params;
+    const { filter } = req.query;
 
-  const channel = await youtube?.getChannel(channelId);
+    const channel = await youtube?.getChannel(channelId);
 
-  const shorts = await channel?.getShorts();
-  const filterShorts = await shorts?.applyFilter(filter);
+    const shorts = await channel?.getShorts();
 
-  res.json(filterShorts.videos);
+    const filterShorts = await shorts?.applyFilter(filter);
+
+    res.json(filterShorts.videos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("no shorts found");
+  }
 });
 
 app.get("/api/channel/:channelId/posts", async (req, res) => {
-  const { channelId } = req.params;
+  try {
+    const { channelId } = req.params;
 
-  const channel = await youtube?.getChannel(channelId);
+    const channel = await youtube?.getChannel(channelId);
 
-  const posts = await channel?.getCommunity();
+    const posts = await channel?.getCommunity();
 
-  res.json(posts.posts);
+    res.json(posts.posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("no posts found");
+  }
 });
 
 app.get("/api/trending/shorts", async (req, res) => {
-
   const channel = await youtube?.getChannel("UCX6OQ3DkcsbYNE6H8uQQuVA");
 
   const shorts = await channel?.getShorts();
