@@ -10,6 +10,11 @@ const { Innertube, UniversalCache, YTNodes } = require("youtubei.js");
 
 const app = express();
 
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(
   cors({
     origin: [
@@ -18,11 +23,12 @@ app.use(
       "https://react-youtube-project.vercel.app",
       "https://youtube-project-beta.vercel.app",
     ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
+
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 let yt = new Client();
 
